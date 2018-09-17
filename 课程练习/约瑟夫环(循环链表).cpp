@@ -91,13 +91,13 @@ void Solve(LinkList *p,int m,int type,int site)
 		{
 			temp = temp->pre;
 		}
-		int data = temp->data;
+		int data = temp->data; 
 		pre = temp->pre;
 		aft = temp->next;
 		aft->pre = pre;
 		pre->next = aft;
-		free(temp);
 		printf("第%d个人(密码%d)挂了\n",temp->id,data);
+		free(temp);
 		Solve(&pre,data,2,1);
 	}
 }
@@ -136,25 +136,27 @@ int main()
 	int m;
 	
 	int n;
+	printf("顺时针淘汰:\n");
 	printf("请输入人数:");
 	scanf("%d",&n);
 	pHead = Create(n);
 	Print(pHead,1);
 	printf("请输入初始密码:");
 	scanf("%d",&m);
-	printf("顺时针淘汰:\n");
+
 	srand(time(NULL));
 	//Solve(&pHead,m,1);
 	int fir = rand()%n+1;
 	printf("从%d开始报数\n",fir);
 	Solve(&pHead,m,1,fir);
 	
+	printf("逆时针淘汰:\n");
 	printf("请输入人数:");
 	scanf("%d",&n);
 	pHead = Create(n);
 	Print(pHead,2);
+	printf("请输入初始密码:");
 	scanf("%d",&m);
-	printf("逆时针淘汰:\n");
 	Solve(&pHead,m,2,fir);
 	return 0;
 }

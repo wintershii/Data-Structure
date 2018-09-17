@@ -2,20 +2,20 @@
 #include<stdlib.h>
 #include<math.h>
 
-typedef struct node{
+typedef struct node{//多项式每项的节点的数据结构类型声明 
 	float coef;
 	int expn;
 	struct node *next;
 }Node,*LinkList;
 
-LinkList Create()
+LinkList Create()//创建多项式 
 {
 	LinkList pHead = (LinkList)malloc(sizeof(Node));
 	pHead->next = NULL;
 	LinkList pNew = NULL,pEnd = pHead;
 	pNew = (LinkList)malloc(sizeof(Node));
 	scanf("%f,%d",&pNew->coef,&pNew->expn);
-	while(pNew->coef != 0)
+	while(pNew->coef != 0)//输入0时停止录入 
 	{
 		pNew->next = NULL;
 		pEnd->next = pNew;
@@ -26,7 +26,7 @@ LinkList Create()
 	return pHead;
 }
 
-void Print(LinkList head)
+void Print(LinkList head)//输出多项式 
 {
 	LinkList temp = head->next;
 	while(temp->next != NULL)
@@ -72,7 +72,7 @@ void Print(LinkList head)
 	printf("\n");
 }
 
-LinkList Add(LinkList la,LinkList lb)
+LinkList Add(LinkList la,LinkList lb)//多项式相加 
 {
 	LinkList qa = la->next;
 	LinkList qb = lb->next;
@@ -120,7 +120,7 @@ LinkList Add(LinkList la,LinkList lb)
 	return cHead;
 }
 
-LinkList Sub(LinkList la,LinkList lb)
+LinkList Sub(LinkList la,LinkList lb)//多项式相减 
 {
 	LinkList qa = la->next;
 	LinkList qb = lb->next;
@@ -175,7 +175,7 @@ LinkList Sub(LinkList la,LinkList lb)
 	return dHead;
 }
 
-void Solve(LinkList head,float x)
+void Solve(LinkList head,float x)//多项式求解 
 {
 	float sum = 0;
 	LinkList temp = head->next;
@@ -187,7 +187,7 @@ void Solve(LinkList head,float x)
 	printf("求得结果为: %.2f\n",sum);
 }
 
-LinkList derivative(LinkList head)
+LinkList derivative(LinkList head)//多项式求导 
 {
 	LinkList temp = head->next;
 	LinkList eHead = (LinkList)malloc(sizeof(Node));
@@ -209,6 +209,38 @@ LinkList derivative(LinkList head)
 	return eHead;
 }
 
+void Mult(LinkList la,LinkList lb)
+{
+	LinkList qa = la->next;
+	LinkList tHead = (LinkList)malloc(sizeof(Node));
+	tHead->next = NULL;
+	while(qa != NULL)
+	{
+		LinkList Rp = (LinkList)malloc(sizeof(Node));
+		LinkList temp = Rp;
+		LinkList qb = lb->next;
+		float coef = qa->coef;
+		int expn = qa->expn;
+		while(qb != NULL)
+		{
+			LinkList pNew = (LinkList)malloc(sizeof(Node));
+			pNew->coef = coef * qb->coef;
+			pNew->expn = expn + qb->expn;
+			pNew->next = NULL;
+			temp->next = pNew;
+			temp = temp->next;
+			qb = qb->next;
+		}
+		tHead = Add(tHead,Rp);
+		qa = qa->next;
+	//	Print(tHead);
+		free(Rp);
+		free(temp);
+	}
+	printf("LA与LB相乘:");
+	Print(tHead);
+}
+
 int main()
 {
 	LinkList la,lb;
@@ -227,6 +259,9 @@ int main()
 	LinkList ld = Sub(la,lb);
 	Print(ld);
 	
+	Mult(la,lb);
+	
+	printf("请输入要代入的X的值:");
 	float x;
 	scanf("%f",&x);
 	printf("LA");Solve(la,x);
@@ -238,5 +273,7 @@ int main()
 	printf("LB求导:");
 	LinkList e2 = derivative(lb);
 	Print(e2);
+	
+	
 	return 0;
 }

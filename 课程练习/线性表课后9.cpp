@@ -8,6 +8,13 @@ typedef struct node{
 	struct node *next;
 }Node,*LinkList;
 
+int Min(int a,int b)
+{
+	if(a <= b)
+		return a;
+	return b;
+}
+
 LinkList Create(int n)
 {
 	LinkList pHead = (LinkList)malloc(sizeof(Node));
@@ -24,15 +31,26 @@ LinkList Create(int n)
 	return pHead;
 }
 
+/**
+  合并两链表 
+*/ 
 LinkList Merge(LinkList la,LinkList lb,int m,int n)
 {
-	LinkList aHead = la->next, bHead = lb->next;
+	LinkList aHead , bHead;
 	LinkList cHead = (LinkList)malloc(sizeof(Node));
 	if(m <= n)
 	{
+		aHead = la->next;
+		bHead = lb->next;
+	}
+	else
+	{
+		aHead = lb->next;
+		bHead = la->next;
+	}
 		LinkList pTemp = cHead;
 		int t = 1;
-		while(t <= m)
+		while(t <= Min(m,n))
 		{
 			pTemp->next = aHead;
 			LinkList aftA = aHead->next;
@@ -43,26 +61,12 @@ LinkList Merge(LinkList la,LinkList lb,int m,int n)
 			bHead = aftB;
 			t++;
 		}
-	}
-	else
-	{
-		LinkList pTemp = cHead;
-		int t = 1;
-		while(t <= n)
-		{
-			pTemp->next = bHead;
-			LinkList aftB = bHead->next;
-			bHead->next = aHead;
-			LinkList aftA = aHead->next;
-			bHead = aftB;
-			pTemp = aHead;
-			aHead = aftA;
-			t++;
-		}
-	}
 	return cHead;
 }
 
+/**
+  遍历输出链表数据 
+*/ 
 void Print(LinkList head)
 {
 	LinkList temp = head->next;
@@ -78,10 +82,10 @@ int main()
 {
 	LinkList la,lb;
 	int m,n;
-	scanf("%d",&m);
+	scanf("%d",&m);//A表的长度 
 	la = Create(m);
 	scanf("%d",&n);
-	lb = Create(n);
+	lb = Create(n);//B表的长度 
 	printf("LA链表：");
 	Print(la);
 	printf("LB链表：");

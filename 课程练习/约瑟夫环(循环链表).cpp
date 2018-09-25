@@ -19,7 +19,6 @@ LinkList Create(int n)
 	LinkList pNew = NULL,pEnd = NULL;
 	for(int i = 0; i < n; i++)
 	{
-		printf("请输入第%d个人的密码：",i+1);
 		pNew = (LinkList)malloc(sizeof(Node));
 		//scanf("%d",&pNew->data);
 		pNew->data = rand()%9+1;;
@@ -109,24 +108,24 @@ void Print(LinkList head,int type)
 {
 	LinkList temp = head;
 	printf("-----遍历双向循环链表-----\n");
-	printf("---ID---  ---PWD---\n");
+	printf("---ID---     ---PWD---\n");
 	if(type == 1)
 	{
 		while(temp->next != head)
 		{
-			printf("   %d        %d   \n",temp->id,temp->data);
+			printf("   %d            %d   \n",temp->id,temp->data);
 			temp = temp->next;
 		}
-		printf("   %d        %d   \n",temp->id,temp->data);
+		printf("   %d            %d   \n",temp->id,temp->data);
 	}
 	else
 	{
 		while(temp->pre != head)
 		{
-			printf("   %d        %d   \n",temp->id,temp->data);
+			printf("   %d            %d   \n",temp->id,temp->data);
 			temp = temp->pre;
 		}
-		printf("   %d        %d   \n",temp->id,temp->data);
+		printf("   %d            %d   \n",temp->id,temp->data);
 	}
 }
 
@@ -134,29 +133,20 @@ int main()
 {
 	LinkList pHead;
 	int m;
-	
 	int n;
-	printf("顺时针淘汰:\n");
 	printf("请输入人数:");
-	scanf("%d",&n);
+	scanf("%d",&n);//总人数 
 	pHead = Create(n);
 	Print(pHead,1);
 	printf("请输入初始密码:");
-	scanf("%d",&m);
-
+	scanf("%d",&m);//初始报数的密码 
 	srand(time(NULL));
-	//Solve(&pHead,m,1);
-	int fir = rand()%n+1;
+	int fir = rand()%n+1;//随机生成从第几个人开始报数 
 	printf("从%d开始报数\n",fir);
-	Solve(&pHead,m,1,fir);
 	
-	printf("逆时针淘汰:\n");
-	printf("请输入人数:");
-	scanf("%d",&n);
-	pHead = Create(n);
-	Print(pHead,2);
-	printf("请输入初始密码:");
-	scanf("%d",&m);
-	Solve(&pHead,m,2,fir);
+	printf("顺时针还是逆时针?1-顺时针.2-逆时针\n");
+	int choice;
+	scanf("%d",&choice);//选择顺时针报数还是逆时针报数 
+	Solve(&pHead,m,choice,fir);
 	return 0;
 }

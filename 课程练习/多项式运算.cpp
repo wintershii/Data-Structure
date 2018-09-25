@@ -65,6 +65,7 @@ void Print(LinkList head)//输出多项式
 	{
 		printf("X");
 	}
+	else if(temp->expn == 0);
 	else
 	{
 		printf("X^%d",temp->expn);
@@ -163,8 +164,10 @@ LinkList Sub(LinkList la,LinkList lb)//多项式相减
 		{
 			LinkList pNew = (LinkList)malloc(sizeof(Node));
 			pNew->coef = -qb->coef;
+			pNew->expn = qb->expn;
 			qd->next = pNew;
 			qd = qd->next;
+			qb = qb->next;
 		}
 		qd->next = NULL;
 	}
@@ -191,11 +194,17 @@ LinkList derivative(LinkList head)//多项式求导
 {
 	LinkList temp = head->next;
 	LinkList eHead = (LinkList)malloc(sizeof(Node));
+	eHead->next = NULL;
 	LinkList le = eHead;
 	while(temp != NULL)
 	{
 		if(temp->expn == 0)
 		{
+			if(temp->next == NULL)
+			{
+				printf("0\n");
+				return eHead;
+			}
 			temp = temp->next;
 			continue;
 		}
@@ -209,7 +218,7 @@ LinkList derivative(LinkList head)//多项式求导
 	return eHead;
 }
 
-void Mult(LinkList la,LinkList lb)
+void Mult(LinkList la,LinkList lb)//多项式相乘 
 {
 	LinkList qa = la->next;
 	LinkList tHead = (LinkList)malloc(sizeof(Node));
@@ -233,8 +242,14 @@ void Mult(LinkList la,LinkList lb)
 		}
 		tHead = Add(tHead,Rp);
 		qa = qa->next;
-	//	Print(tHead);
-		free(Rp);
+		LinkList t1 = Rp->next;
+		LinkList t2 = Rp;
+		while(t1 != NULL)
+		{
+			free(t2);
+			t2 = t1;
+			t1 = t1->next;
+		}
 		free(temp);
 	}
 	printf("LA与LB相乘:");

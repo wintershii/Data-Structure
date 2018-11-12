@@ -34,7 +34,9 @@ public class BinaryTree {
         System.out.println("非递归后序遍历:");
         nonRecAftOrder(bt.root);
 
-
+        System.out.println();
+        System.out.println("层序遍历");
+        levelTravel(bt.root);
     }
 
     /**
@@ -166,6 +168,26 @@ public class BinaryTree {
         }
         System.out.println();
     }
+
+    /**
+     * 二叉树的层序遍历
+     * @param root
+     */
+    public static void levelTravel(TreeNode root) {
+        Deque<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            System.out.print(node.data + " ");
+            if (node.leftChild != null) {
+                queue.offer(node.leftChild);
+            }
+            if (node.rightChild != null) {
+                queue.offer(node.rightChild);
+            }
+        }
+    }
+
 
     /**
      * 二叉树节点的数据结构类型

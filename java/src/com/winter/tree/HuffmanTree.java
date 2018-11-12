@@ -33,8 +33,13 @@ public class HuffmanTree {
         System.out.print("请输入需要编码的数据:");
         String str = scan.next();
         //编码
-        coding(str);
+        HfTree[] ht = null;
+        ht = coding(str);
 
+        System.out.println();
+        System.out.print("请输入需要译码的数据:");
+        String str2 = scan.next();
+        decoding(str2,ht);
     }
 
     /**
@@ -88,7 +93,7 @@ public class HuffmanTree {
      * @param str
      * @return
      */
-    public static void coding(String str) {
+    public static HfTree[] coding(String str) {
         HashMap<Character,Integer> map = new HashMap();
         for (int i = 0; i < str.length(); i++) {
             if (map.containsKey(str.charAt(i))) {
@@ -127,9 +132,38 @@ public class HuffmanTree {
             char charset = str.charAt(j);
             System.out.print(code.get(charset));
         }
-
+        return ht;
     }
 
+
+    /**
+     * 译码
+     * @param str
+     * @param ht
+     */
+    public static void decoding(String str, HfTree[] ht) {
+        HfTree root = ht[ht.length-1];
+        HfTree temp = root;
+        for (int i = 0; i < str.length(); i++) {
+            if (temp.leftChild == -1 && temp.rightChild == -1) {
+                System.out.print(temp.charset);
+                temp = root;
+            }
+            if (str.charAt(i) == '0') {
+                temp = ht[temp.leftChild];
+            } else if (str.charAt(i) == '1'){
+                temp = ht[temp.rightChild];
+            } else {
+                System.out.println("输入的编码有误！");
+                return;
+            }
+        }
+        if (temp.rightChild != -1 || temp.rightChild != -1) {
+            System.out.println("输入的编码有误！");
+            return;
+        }
+        System.out.println(temp.charset);
+    }
 
     /**
      * 返回最小值下标及次小值下标
@@ -175,7 +209,6 @@ public class HuffmanTree {
         MyMin m = new MyMin(min,nextMin);
         return m;
     }
-
 
 }
 

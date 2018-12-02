@@ -41,6 +41,7 @@ public class KMP {
                 j = nextval[j] - 1;
             }
         }
+        System.out.println(nextval);
         return nextval;
     }
 
@@ -55,8 +56,7 @@ public class KMP {
         int j = -1;
         int len1 = str.length();
         int len2 = son.length();
-        int[] nextval = new int[len2];
-        nextval = getNextval(son);
+        int[] nextval = getNextval(son);
 
         while (i < len1 && j < len2) {
             if (j == -1 || str.charAt(i) == son.charAt(j)) {

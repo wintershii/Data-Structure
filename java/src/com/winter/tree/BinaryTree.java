@@ -108,7 +108,7 @@ public class BinaryTree {
                 System.out.print(node);
                 stack.push(node);
                 node = node.leftChild;
-            } else if (stack.size() >0) {
+            } else {
                 node = stack.pop();
                 node = node.rightChild;
             }
@@ -129,7 +129,7 @@ public class BinaryTree {
                 stack.push(node);
                 node = node.leftChild;
                 //栈非空
-            } else if (stack.size() >0) {
+            } else {
                 node = stack.pop();
                 System.out.print(node);
                 node = node.rightChild;

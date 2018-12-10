@@ -1,7 +1,9 @@
 package com.map;
 
+/**
+ * Prim算法求图的最小生成树
+ */
 public class Prim {
-    static int MAX = 100;
 
     public static void main(String[] args) {
         MatrixMap map = new MatrixMap(10,100);
@@ -21,18 +23,20 @@ public class Prim {
         map.insertEage('H','I',2);
         map.insertEage('I','J',2);
 
-        prime(map,'J');
+        new Prim().prime(map,'J');
 
     }
 
-    private static void prime(MatrixMap map, char start) {
-        CloseEage[] close = new CloseEage[map.getPointNum()];
+    private void prime(MatrixMap map, char start) {
+
+
+        int pointNum = map.getPointNum();
+        int temp = 0;
+        //辅助数组
+        CloseEage[] close = new CloseEage[pointNum];
         for (int i = 0; i < map.getPointNum(); i++) {
             close[i] = new CloseEage();
         }
-        int min = MAX;
-        int pointNum = map.getPointNum();
-        int temp = 0;
 
         System.out.print(start + " ");
 
@@ -44,20 +48,21 @@ public class Prim {
         }
 
         for (int j = 0; j < pointNum - 1; j++) {
-
+            int min = Integer.MAX_VALUE;
             for (int k = 0; k < pointNum; k++) {
                 if (close[k].lowCost != 0 && close[k].lowCost < min) {
                     temp = k;
                     min = close[k].lowCost;
-
                 }
             }
 
+
             close[temp].lowCost = 0;
+
             System.out.print(map.getChar(temp) + " ");
 
             for (int k = 0; k < pointNum; k++) {
-                if (k != temp && map.getEage(temp,k) < close[k].lowCost) {
+                if (k != temp && close[k].lowCost != 0 && map.getEage(temp,k) < close[k].lowCost ) {
                     close[k].lowCost = map.getEage(temp,k);
                     close[k].adjVex = temp;
                 }
@@ -66,7 +71,6 @@ public class Prim {
         }
 
     }
-
 
 }
 

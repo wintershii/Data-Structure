@@ -1,5 +1,11 @@
 package com.map;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
+/**
+ * 图的深度优先遍历
+ */
 public class DFSMap {
     public static boolean[] visited = new boolean[100];
 
@@ -16,27 +22,75 @@ public class DFSMap {
         map.insertEage('D','G',1);
         map.insertEage('E','G',1);
 
-        DFSTravel(map);
+        new DFSMap().dfsTravel(map);
     }
 
-    public static void DFSTravel(MatrixMap map) {
+    /**
+     * 递归实现图的深度优先遍历
+     * @param map
+     */
+    public void dfsTravel(MatrixMap map) {
+        System.out.print("递归:");
         for (int i = 0; i < map.getPointNum(); i++) {
-            if (visited[i] == false) {
-                DFS(map,map.getChar(i));
+            if ( !visited[i]) {
+                dfs(map,map.getChar(i));
+
+            }
+        }
+        System.out.println();
+        System.out.print("非递归:");
+        for (int i = 0; i < map.getPointNum(); i++) {
+            visited[i] = false;
+        }
+        for (int i = 0; i < map.getPointNum(); i++) {
+            if ( !visited[i]) {
+                nonRecDfs(map,map.getChar(i));
             }
         }
     }
 
-    public static void DFS(MatrixMap map,char init) {
+    /**
+     * 递归主体
+     * @param map
+     * @param init
+     */
+    public void dfs(MatrixMap map,char init) {
         System.out.print(init + " ");
         visited[map.getPointSet(init)] = true;
         char[] nexs = map.getNextPoint(init);
         for (char e: nexs) {
-            if (visited[map.getPointSet(e)] != true) {
-                DFS(map,e);
+            if ( !visited[map.getPointSet(e)]) {
+                dfs(map,e);
             }
         }
     }
 
+    /**
+     * 非递归深度优先遍历
+     * @param map
+     * @param init
+     */
+    public void nonRecDfs(MatrixMap map, char init) {
+        Deque<Character> stack = new ArrayDeque<>();
+        stack.push(init);
+
+        while ( !stack.isEmpty()) {
+            char c = stack.pop();
+            if ( !visited[map.getPointSet(c)]) {
+                visited[map.getPointSet(c)] = true;
+                System.out.print(c + " ");
+            } else {
+                continue;
+            }
+
+            char[] chars = map.getNextPoint(c);
+            for (int i = chars.length - 1; i >= 0; i--) {
+                if ( !visited[map.getPointSet(chars[i])]) {
+                    stack.push(chars[i]);
+                }
+
+            }
+        }
+    }
 
 }

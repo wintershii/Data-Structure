@@ -1,9 +1,13 @@
 package com.map;
 
-import sun.nio.cs.ext.MacArabic;
 
+/**
+ * 邻接矩阵表示图
+ */
 public class MatrixMap {
+    //矩阵保存边权值
     private int[][] eages;
+    //char数组保存点
     private char[] vex;
 
     public MatrixMap(int vexNum) {

@@ -145,7 +145,6 @@ public class BinaryTree {
      */
     public static void nonRecAftOrder(TreeNode root) {
         Deque<TreeNode> stack = new ArrayDeque<>();
-        TreeNode node = root;
         TreeNode p = root;
         TreeNode preRight = p;
         while (p != null) {

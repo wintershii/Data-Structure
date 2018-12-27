@@ -10,8 +10,8 @@ public class DFSMap {
     public static boolean[] visited = new boolean[100];
 
     public static void main(String[] args) {
-        MatrixMap map = new MatrixMap(7);
-        map.insertVex(new char[]{'A','B','C','D','E','F','G'});
+        MatrixMap map = new MatrixMap(9);
+        map.insertVex(new char[]{'A','B','C','D','E','F','G','X','T'});
         map.insertEage('A','B',1);
         map.insertEage('A','C',1);
         map.insertEage('A','D',1);
@@ -21,7 +21,7 @@ public class DFSMap {
         map.insertEage('D','F',1);
         map.insertEage('D','G',1);
         map.insertEage('E','G',1);
-
+        map.insertEage('X','T',1);
         new DFSMap().dfsTravel(map);
     }
 
@@ -33,8 +33,8 @@ public class DFSMap {
         System.out.print("递归:");
         for (int i = 0; i < map.getPointNum(); i++) {
             if ( !visited[i]) {
+                System.out.print("连通分量：");
                 dfs(map,map.getChar(i));
-
             }
         }
         System.out.println();
@@ -44,6 +44,7 @@ public class DFSMap {
         }
         for (int i = 0; i < map.getPointNum(); i++) {
             if ( !visited[i]) {
+                System.out.print("连通分量：");
                 nonRecDfs(map,map.getChar(i));
             }
         }
